@@ -1,6 +1,7 @@
 from django.contrib import admin
-from project_management.models import Board, CheckListItem, Invite, Label, Task, TaskAssignee, TaskLabel, TaskList, \
-	Workspace, WorkspaceMember
+
+from project_management.models import Board, BoardInvite, BoardMember, CheckListItem, Label, Task, TaskAssignee, \
+	TaskLabel, TaskList, Workspace, WorkspaceInvite, WorkspaceMember
 
 
 # Register your models here.
@@ -27,10 +28,14 @@ class TaskListAdmin(admin.ModelAdmin):
 	pass
 
 
-@admin.register(Invite)
-class InviteAdmin(admin.ModelAdmin):
+@admin.register(WorkspaceInvite)
+class WorkspaceInviteAdmin(admin.ModelAdmin):
 	pass
 
+
+@admin.register(BoardInvite)
+class BoardInviteAdmin(admin.ModelAdmin):
+	pass
 
 @admin.register(TaskAssignee)
 class TaskAssigneeAdmin(admin.ModelAdmin):
@@ -51,6 +56,10 @@ class TaskLabelAdmin(admin.ModelAdmin):
 class WorkspaceMemberAdmin(admin.ModelAdmin):
 	pass
 
+
+@admin.register(BoardMember)
+class BoardMemberAdmin(admin.ModelAdmin):
+	pass
 
 @admin.register(Label)
 class LabelAdmin(admin.ModelAdmin):

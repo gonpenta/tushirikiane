@@ -27,35 +27,35 @@ SECRET_KEY = config("SECRET_KEY", default="django-insecure-#!q5HGFHSGFHJSvs")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=True, cast=bool)
 
-
 # Application definition
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "corsheaders",
-    "django_filters",
-    "rest_framework",
-    "djoser",
-    "accounts",
-    "core",
-    "project_management",
+		"django.contrib.admin",
+		"django.contrib.auth",
+		"django.contrib.contenttypes",
+		"django.contrib.sessions",
+		"django.contrib.messages",
+		"django.contrib.staticfiles",
+		"django.contrib.sites",
+		"corsheaders",
+		"django_filters",
+		"rest_framework",
+		"djoser",
+		"accounts",
+		"core",
+		"project_management",
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+		"corsheaders.middleware.CorsMiddleware",
+		"django.middleware.common.CommonMiddleware",
+		"django.middleware.security.SecurityMiddleware",
+		"django.contrib.sessions.middleware.SessionMiddleware",
+		"django.middleware.csrf.CsrfViewMiddleware",
+		"django.contrib.auth.middleware.AuthenticationMiddleware",
+		"django.contrib.messages.middleware.MessageMiddleware",
+		"django.middleware.clickjacking.XFrameOptionsMiddleware",
+		# "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1, localhost", cast=Csv())
@@ -64,19 +64,19 @@ CORS_ORIGIN_ALLOW_ALL = config("CORS_ORIGIN_ALLOW_ALL", default=True, cast=bool)
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
-            ],
-        },
-    },
+		{
+				"BACKEND": "django.template.backends.django.DjangoTemplates",
+				"DIRS": [],
+				"APP_DIRS": True,
+				"OPTIONS": {
+						"context_processors": [
+								"django.template.context_processors.debug",
+								"django.template.context_processors.request",
+								"django.contrib.auth.context_processors.auth",
+								"django.contrib.messages.context_processors.messages",
+						],
+				},
+		},
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
@@ -87,40 +87,40 @@ WSGI_APPLICATION = "config.wsgi.application"
 USE_SQLITE = config("USE_SQLITE", default=True, cast=bool)
 
 if USE_SQLITE:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+	DATABASES = {
+			"default": {
+					"ENGINE": "django.db.backends.sqlite3",
+					"NAME": BASE_DIR / "db.sqlite3",
+			}
+	}
 else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": config("DB_NAME", default=""),
-            "USER": config("DB_USER", default=""),
-            "PASSWORD": config("DB_PASS", default=""),
-            "HOST": config("DB_HOST", default="localhost"),
-            "PORT": config("DB_PORT", default="5432", cast=int),
-        }
-    }
+	DATABASES = {
+			"default": {
+					"ENGINE": "django.db.backends.postgresql_psycopg2",
+					"NAME": config("DB_NAME", default=""),
+					"USER": config("DB_USER", default=""),
+					"PASSWORD": config("DB_PASS", default=""),
+					"HOST": config("DB_HOST", default="localhost"),
+					"PORT": config("DB_PORT", default="5432", cast=int),
+			}
+	}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
-    {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
-    },
+		{
+				"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+		},
+		{
+				"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+		},
+		{
+				"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+		},
+		{
+				"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+		},
 ]
 
 # Internationalization
@@ -148,71 +148,70 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 SITE_ID = 1
+SITE_NAME = "Tushirikiane"
 
 # CORS
 
 if DEBUG:
-    CORS_ORIGIN_ALLOW_ALL = True
+	CORS_ORIGIN_ALLOW_ALL = True
 else:
-    CORS_ALLOWED_ORIGINS = config(
-        "CORS_ALLOWED_ORIGINS",
-        default="https://3.84.124.185,http://localhost:3000",
-        cast=Csv(),
-    )
-    CORS_ALLOW_CREDENTIALS = True
-
+	CORS_ALLOWED_ORIGINS = config(
+		"CORS_ALLOWED_ORIGINS",
+		default="https://3.84.124.185,http://localhost:3000",
+		cast=Csv(),
+	)
+	CORS_ALLOW_CREDENTIALS = True
 
 # Rest framework settings
 REST_FRAMEWORK = {
-    # "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+		# "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+		"DEFAULT_AUTHENTICATION_CLASSES": (
+				"rest_framework_simplejwt.authentication.JWTAuthentication",
+		),
 }
 
 # Authentication settings
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
+		"django.contrib.auth.backends.ModelBackend",
 ]
 
 # Djoser settings
 DJOSER = {
-    # Add Djoser settings here
-    # User Create settings
-    "USER_CREATE_PASSWORD_RETYPE": True,
-    "ACTIVATION_URL": "auth/activate/{uid}/{token}",
-    "SEND_ACTIVATION_EMAIL": True,
-    "SEND_CONFIRMATION_EMAIL": True,
-    # Password reset settings
-    "PASSWORD_RESET_CONFIRM_URL": "auth/password-reset/{uid}/{token}",
-    "PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
-    "PASSWORD_RESET_CONFIRM_RETYPE": True,
-    # Username reset settings
-    "USERNAME_RESET_CONFIRM_URL": "auth/email-reset/{uid}/{token}",
-    "USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
-    "EMAIL": {
-        "password_reset": "accounts.emails.PasswordResetEmail",
-        "password_changed_confirmation": "accounts.emails.PasswordChangedConfirmationEmail",
-        "username_reset": "accounts.emails.UsernameResetEmail",
-        "username_changed_confirmation": "accounts.emails.UsernameChangedConfirmationEmail",
-    },
-    "HIDE_USERS": True,
-    "TOKEN_MODEL": None,
+		# Add Djoser settings here
+		# User Create settings
+		"USER_CREATE_PASSWORD_RETYPE": True,
+		"ACTIVATION_URL": "auth/activate/{uid}/{token}",
+		"SEND_ACTIVATION_EMAIL": True,
+		"SEND_CONFIRMATION_EMAIL": True,
+		# Password reset settings
+		"PASSWORD_RESET_CONFIRM_URL": "auth/password-reset/{uid}/{token}",
+		"PASSWORD_CHANGED_EMAIL_CONFIRMATION": True,
+		"PASSWORD_RESET_CONFIRM_RETYPE": True,
+		# Username reset settings
+		"USERNAME_RESET_CONFIRM_URL": "auth/email-reset/{uid}/{token}",
+		"USERNAME_CHANGED_EMAIL_CONFIRMATION": True,
+		"EMAIL": {
+				"password_reset": "accounts.emails.PasswordResetEmail",
+				"password_changed_confirmation": "accounts.emails.PasswordChangedConfirmationEmail",
+				"username_reset": "accounts.emails.UsernameResetEmail",
+				"username_changed_confirmation": "accounts.emails.UsernameChangedConfirmationEmail",
+		},
+		"HIDE_USERS": True,
+		"TOKEN_MODEL": None,
 }
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+		"ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+		"REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 # Email settings
 if DEBUG:
-    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+	EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 else:
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+	EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 TEST_RUNNER = "core.custom_test_runner.CustomTestRunner"
 
@@ -222,3 +221,11 @@ EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
 EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="your_email_address")
 EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="your_password")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="your_email_address")
+
+# Custom settings
+PROJECT_MANAGEMENT = {
+		"URLS": {
+				"accept_board_invite": "board/accept-invite/{token}",
+				"accept_workspace_invite": "workspace/accept-invite/{token}",
+		}
+}

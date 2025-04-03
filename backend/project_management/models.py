@@ -1,9 +1,10 @@
 import uuid
 
-from core.models import BaseModel
 from django.db import models
 from django.utils.text import slugify
-from project_management.managers import CustomWorkspaceManager
+
+from core.models import BaseModel
+from project_management.managers import CustomBoardManager, CustomWorkspaceManager
 
 app_label = "project_management"
 
@@ -72,7 +73,9 @@ class Board(BaseModel):
 	description = models.TextField(blank=True, null=True)
 	workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, related_name="boards")
 	position = models.PositiveIntegerField()
-	slug = models.CharField(max_length=255, default=str(name), blank=True)
+	slug = models.CharField(max_length=255, default="", blank=True)
+
+	objects = CustomBoardManager()
 
 	def __str__(self):
 		"""
@@ -92,6 +95,27 @@ class Board(BaseModel):
 
 
 # pre_save.connect(add_position_to_board, sender=Board, dispatch_uid="add_position_to_board")
+
+class BoardMember(BaseModel):
+	"""
+	BoardMember model to represent a member in a board.
+	Attributes:
+		board (ForeignKey): The board to which the member belongs.
+		member (ForeignKey): The user who is a member of the board.
+	"""
+
+	board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="members")
+	member = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE, related_name="board_members")
+
+	def __str__(self):
+		"""
+		Returns a string representation of the workspace member.
+		Overrides the default __str__ method.
+		Returns:
+			str: The name of the workspace member.
+		"""
+		return self.member
+
 
 class TaskList(BaseModel):
 	"""
@@ -236,7 +260,7 @@ class TaskLabel(BaseModel):
 		return f"{self.label} assigned to {self.task}"
 
 
-class Invite(BaseModel):
+class WorkspaceInvite(BaseModel):
 	"""
 	Invite model to represent an invitation to join a workspace.
 	Attributes:
@@ -247,13 +271,40 @@ class Invite(BaseModel):
 		is_accepted (BooleanField): Indicates whether the invite has been accepted.
 	"""
 
-	workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, related_name="invites")
-	sender = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE, related_name="sent_invites")
+	workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, related_name="workspace_invites")
+	sender = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE, related_name="sent_workspace_invites")
 	recipient_email = models.EmailField()
 
 	# Internal fields
 	token = models.UUIDField(default=uuid.uuid4, editable=False)
 	is_accepted = models.BooleanField(default=False)
+
+	def __str__(self):
+		"""
+		Returns a string representation of the invite.
+		Overrides the default __str__ method.
+		Returns:
+			str: The email address of the recipient.
+		"""
+		return self.recipient_email
+
+
+class BoardInvite(BaseModel):
+	"""
+	BoardInvite model to represent an invitation to join a board.
+	Attributes:
+		board (ForeignKey): The board  for which the invite is sent.
+		sender (ForeignKey): The user who sent the invite.
+		recipient_email (EmailField): The email address of the recipient.
+		token (UUIDField): The token used for accepting the invite.
+	"""
+
+	board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="board_invites")
+	sender = models.ForeignKey("accounts.CustomUser", on_delete=models.CASCADE, related_name="sent_board_invites")
+	recipient_email = models.EmailField()
+
+	# Internal fields
+	token = models.UUIDField(default=uuid.uuid4, editable=False)
 
 	def __str__(self):
 		"""

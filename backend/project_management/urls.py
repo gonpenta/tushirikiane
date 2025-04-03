@@ -3,7 +3,8 @@ from rest_framework import routers
 from rest_framework_nested.routers import NestedSimpleRouter
 
 from .views import BoardViewSet, CheckListItemViewSet, InviteViewSet, LabelViewSet, TaskAssigneeViewSet, \
-	TaskLabelViewSet, TaskListViewSet, TaskViewSet, WorkspaceMemberViewSet, WorkspaceViewSet
+	TaskLabelViewSet, TaskListViewSet, TaskViewSet, WorkspaceMemberViewSet, WorkspaceViewSet, accept_board_invite, \
+	accept_workspace_invite
 
 """
 URL configuration for the project_management app.
@@ -65,16 +66,19 @@ workspace_invite_router = NestedSimpleRouter(router, r'workspaces', lookup='work
 workspace_invite_router.register(r'invites', InviteViewSet, basename='workspace-invite')
 
 urlpatterns = [
-    # Base routes
-    path('', include(router.urls)),
+		path('boards/accept/', accept_board_invite, name='board-accept'),
+		path('workspaces/accept/', accept_workspace_invite, name='workspace-accept'),
 
-    # Nested routes
-    path('', include(workspace_member_router.urls)),
-    path('', include(workspace_board_router.urls)),
-    path('', include(board_tasklist_router.urls)),
-    path('', include(tasklist_task_router.urls)),
-    path('', include(task_assignee_router.urls)),
-    path('', include(task_checklist_router.urls)),
-    path('', include(task_label_router.urls)),
-    path('', include(workspace_invite_router.urls)),
+		# Base routes
+		path('', include(router.urls)),
+
+		# Nested routes
+		path('', include(workspace_member_router.urls)),
+		path('', include(workspace_board_router.urls)),
+		path('', include(board_tasklist_router.urls)),
+		path('', include(tasklist_task_router.urls)),
+		path('', include(task_assignee_router.urls)),
+		path('', include(task_checklist_router.urls)),
+		path('', include(task_label_router.urls)),
+		path('', include(workspace_invite_router.urls)),
 ]
